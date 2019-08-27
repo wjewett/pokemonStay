@@ -1,0 +1,31 @@
+<% include ./partials/header %>
+
+<div class="ui main text container">
+  <div class="ui huge header">PokémonStay!</div>
+ <!-- <a class="ui button blue collection-blue" href="collection/new" >Add a new mon</a> -->
+  <p class="collection-line">The place to keep track of your mons wherever you are. No need to Go.</p>
+    <% if(collection.filter(pokemon => pokemon.author.id.toString() == currentUser._id.toString()).length > 0) { %>
+      <div class="ui top attached segment">
+    <% } else { %>
+    <div>
+    <% } %>
+    <div class="ui divided items clearfix">
+      <% collection.forEach( (pokemon) => { %>
+        <% if(pokemon.author.id.equals(currentUser._id)) { %>
+        <div class="ui main text segment clearfix" id="collection-container">
+            <div class="ui top attached">
+              <div class="item">
+                <img class="fl sprites" src="/img/sprites/<%=pokemon.number%>.png">
+                <div class="tr ui huge header"><%= pokemon.name %>,<br>#<%=pokemon.number%></div>
+                <div class="content"><span>&nbsp;&nbsp;Caught: <%=pokemon.created.toDateString() %></span></div>
+                <div class="button-div">
+                  <a class="ui green button" id="collection-button" href="/collection/<%= pokemon._id %>">More Info</a>
+                </div>
+              </div>
+            </div>
+          </div>
+    <%} }) %>
+    </div>
+  </div>
+</div>
+<% include ./partials/footer %>

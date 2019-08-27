@@ -1,0 +1,41 @@
+<% include ./partials/header %>
+<div class="ui main text container segment clearfix">
+  <div class="ui top attached">
+    <div class="item">
+        <img class="sprites" src="/img/sprites/<%=pokemon.number%>.png">
+        <br>
+        <div class="ui huge header"><%= pokemon.name %>, #<%=pokemon.number%></div>
+        <p><h3>Caught: </h3><%=pokemon.created.toDateString() %></p>
+        <p><h3>Types: </h3><%= pokemon.types.join(', ') %></p>
+        <p><h3>Stats: </h3>
+          <br>
+          <span class="stats">Speed: <%= pokemon.stats[0] %></span>
+          <span class="stats">Special Defense: <%= pokemon.stats[1] %></span>
+          <span class="stats">Special Attack: <%= pokemon.stats[2] %></span>
+          <span class="stats">Defense <%= pokemon.stats[3] %></span>
+          <span class="stats"> Attack <%= pokemon.stats[4] %></span>
+          <span class="stats"> Hit Points (HP): <%= pokemon.stats[0] %></span>
+        </p>
+        <br>
+        <br>
+        <p><h3>Comments: </h3><%= pokemon.comments %></p>
+      <div class="button-div">
+        <% if(pokemon.evolve === 'no') { %>
+          <a class="ui disabled green button show-buttons" disabled>Evolve</a>
+        <% } else { %>
+          <form class="inline" action="/collection/<%= pokemon._id %>/evolve?_method=PUT" method="POST">
+            <input name="pokemon[name]" value="<%= pokemon.evolve %>" hidden>
+            <input name="pokemon[comments]" value="<%= pokemon.comments %>" hidden>
+            <button class="ui green button show-buttons">Evolve to <%= pokemon.evolve %></button>
+          </form>
+        <% } %>
+        <a class="ui orange button show-buttons" href="/collection/<%= pokemon._id %>/edit">Edit</a>
+        <form id="delete" action="/collection/<%=pokemon._id%>?_method=DELETE" method="POST">
+          <button class="ui red button show-buttons">Delete</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<% include ./partials/footer %>

@@ -1,0 +1,92 @@
+i.first {
+  font-size: 2em;
+}
+
+#container {
+  width: 30%;
+  margin-left: auto;
+  margin-right: auto;
+}
+.margin-top{
+  margin-top: 7.0rem !important;
+}
+#delete {
+  display: inline;
+}
+i.second {
+  padding-top: 3.5px;
+}
+.login-button {
+  width: 48%;
+}
+#btn-green{
+  width: 100%;
+}
+.sprites{
+  height: 117px;
+  width: 117px;
+  border: 1px solid rgba(34,36,38,.15);
+  border-radius: .3rem;
+}
+.ui.huge.header {
+  margin-top: 0 !important;
+}
+
+.left-side {
+  float: left;
+  width: calc((100%-150px)/2);
+}
+.right-side {
+  float: right;
+  width: calc((100%-128px)/2);
+}
+.stats {
+  width: 30%;
+  float: left;
+}
+
+
+/* Collection specific */
+#collection-button {
+  width: 100%;
+  margin-top: 3px;
+}
+#collection-container {
+  width: 50%;
+  float: left;
+  margin: auto;
+}
+.collection-line {
+  line-height: 2;
+}
+
+/* Show pokemon */
+.show-buttons {
+  width: 32%;
+  margin: 0 auto;
+}
+.button-div {
+  width: 100%;
+}
+.content {
+  margin-bottom: 5px;
+}
+.inline {
+  display:inline;
+}
+
+/* General use styles */
+.fl {
+  float:left;
+}
+.fr {
+  float:right;
+}
+.tr {
+  text-align: right;
+}
+.clearfix::after {
+  content: "";
+  clear: both;
+  display: table;
+}
