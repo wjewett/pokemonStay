@@ -14,7 +14,14 @@ const express                 = require("express"),
       User                    = require("./models/user");
 
 // mongoose.connect("mongodb://localhost/pokemonStay", { useNewUrlParser: true});
-mongoose.connect("mongodb+srv://wjewett:<password>@pokemonstay-4juub.mongodb.net/test?retryWrites=true&w=majority", { useNewUrlParser: true});
+mongoose.connect("mongodb+srv://wjewett:2^*ZWYXEgwukea%@pokemonstay-4juub.mongodb.net/test?retryWrites=true&w=majority", {     useNewUrlParser: true,
+  useCreateIndex: true})
+  .then(() => {
+    console.log('Connected to DB!');
+  }).catch(err => {
+    console.log('ERROR:', err.message);
+  });
+
 const app = express();
 app.set("view engine", "ejs");
 app.use(bodyParser.urlencoded({extended: true}));
