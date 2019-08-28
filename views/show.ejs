@@ -21,7 +21,7 @@
         <p><h3>Comments: </h3><%= pokemon.comments %></p>
       <div class="button-div">
         <% if(pokemon.evolve === 'no') { %>
-          <a class="ui disabled green button show-buttons" disabled>Evolve</a>
+          <a class="ui disabled green button show-buttons" style="color: #000;" disabled>Does Not Evolve</a>
         <% } else { %>
           <form class="inline" action="/collection/<%= pokemon._id %>/evolve?_method=PUT" method="POST">
             <input name="pokemon[name]" value="<%= pokemon.evolve %>" hidden>
@@ -33,6 +33,7 @@
         <form id="delete" action="/collection/<%=pokemon._id%>?_method=DELETE" method="POST">
           <button class="ui red button show-buttons">Delete</button>
         </form>
+        <a class="ui blue button show-buttons" href="/collection">Back</a>
       </div>
     </div>
   </div>

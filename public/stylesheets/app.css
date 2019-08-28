@@ -23,8 +23,8 @@ i.second {
   width: 100%;
 }
 .sprites{
-  height: 117px;
-  width: 117px;
+  height: 110px;
+  width: 110px;
   border: 1px solid rgba(34,36,38,.15);
   border-radius: .3rem;
 }
@@ -62,7 +62,7 @@ i.second {
 
 /* Show pokemon */
 .show-buttons {
-  width: 32%;
+  width: 24%;
   margin: 0 auto;
 }
 .button-div {

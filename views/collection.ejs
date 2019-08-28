@@ -17,7 +17,7 @@
               <div class="item">
                 <img class="fl sprites" src="/img/sprites/<%=pokemon.number%>.png">
                 <div class="tr ui huge header"><%= pokemon.name %>,<br>#<%=pokemon.number%></div>
-                <div class="content"><span>&nbsp;&nbsp;Caught: <%=pokemon.created.toDateString() %></span></div>
+                <div class="content"><span>&nbsp;Caught: <%=pokemon.created.toDateString() %></span></div>
                 <div class="button-div">
                   <a class="ui green button" id="collection-button" href="/collection/<%= pokemon._id %>">More Info</a>
                 </div>

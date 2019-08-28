@@ -11,9 +11,11 @@ const express                 = require("express"),
       request                 = require("request"),
       rp                      = require("request-promise"),
       Pokemon                 = require("./models/pokemon"),
+      Pokedex                 = require("./models/pokedex"),
       User                    = require("./models/user");
 
 // mongoose.connect("mongodb://localhost/pokemonStay", { useNewUrlParser: true});
+
 mongoose.connect("mongodb+srv://wjewett:cheesypoofs9985@pokemonstay-4juub.mongodb.net/test?retryWrites=true&w=majority", {     useNewUrlParser: true,
        useCreateIndex: true})
   .then(() => {
@@ -48,9 +50,29 @@ passport.use(new LocalStrategy(User.authenticate()));
 passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
 
-// Setup pokedex json file for evolution checking
-let rawData = fs.readFileSync('pokedex.json');
-let pokedex = JSON.parse(rawData);
+// Check to see if Pokedex has been added to MongoDB and scan in pokedex.json if not
+// May be removed from code if a single console.log of 721 is printed on app start
+Pokedex.countDocuments({}, function(err, count) {
+  if (err) { return handleError(err) } //handle possible errors
+  console.log(count);
+  if(count<721) {
+    // Load pokedex.json into a MongoDB collection
+    let rawData = fs.readFileSync('pokedex.json');
+    let pokedex = JSON.parse(rawData);
+
+    let x = 1;
+    pokedex.forEach(pokemon => {
+    Pokedex.create(pokemon, (err, pokemon) => {
+      if(err){
+        console.log(err);
+      }
+    });
+      x++;
+    });
+    console.log(x);
+  }
+});
+
 
 // ============
 // ROUTES
@@ -91,8 +113,8 @@ app.get("/register", (req, res)=>{
 
 //handling user sign up
 app.post("/register", (req, res)=>{
-  req.body.username
-  req.body.password
+  // req.body.username
+  // req.body.password
   User.register(new User({username: req.body.username}), req.body.password, (err, user)=>{
       if(err){
         console.log(err);
@@ -137,7 +159,6 @@ app.post("/collection", isLoggedIn, (req, res)=>{
   let monster = getPokemonInfo(query);
   monster.then(info => {
     if (info.id > 721) {
-      console.log(`This Pokémon, ${info.name}, is not in the first 6 generations. Try again`);
       res.render('new');
     } else {
       newMon = makeNewPokemon(info, comments);
@@ -149,7 +170,6 @@ app.post("/collection", isLoggedIn, (req, res)=>{
       newPokemon = newMon;
       Pokemon.create(newPokemon, (err, newPokemon) =>{
         if(err){
-          console.log("Something fish");
           console.log(err);
           res.render("new");
         } else{
@@ -256,21 +276,29 @@ function getPokemonInfo(query) {
 function makeNewPokemon(data, comments) {
   let baseStats = [];
   let evolve;
+  let types;
   data.stats.forEach(stat => {
     baseStats.push(stat.base_stat);
   });
-  if (pokedex[data.id-1].evolutions){
-    evolve = pokedex[data.id-1].evolutions[0].to;
-  } else {
-    evolve = 'no';
-  }
-  let newPokemon = {name: data.forms[0].name, number: data.id, comments: comments, evolve: evolve, types: pokedex[data.id-1].types, stats: baseStats};
+  let evolutions;
+  Pokedex.findOne({ id: data.id }, function (err, pokemon) {
+    evolutions = pokemon.evolutions;
+    types = pokemon.types;
+    if(evolutions.toString() != '') {
+      evolve = evolutions[0].to;
+    } else {
+      evolve = 'no';
+    }
+  });
+  let newPokemon = {name: data.forms[0].name, number: data.id, comments: comments, evolve: evolve, types: types, stats: baseStats};
   return newPokemon;
 }
 
 function isLoggedIn (req, res, next){
   if(req.isAuthenticated()){
     next();
+  } else {
+    res.redirect('/');
   }
 }
 
@@ -282,7 +310,6 @@ function checkOwnership(req, res, next) {
           res.redirect("/collection")
         } else {
           // does user own the pokemon?
-          console.log(foundPokemon);
           if(foundPokemon.author.id.equals(req.user._id)) {
             next();
           } else {

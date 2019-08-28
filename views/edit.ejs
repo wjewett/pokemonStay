@@ -11,7 +11,8 @@
       <label>Body</label>
       <textarea name="pokemon[comments]" placeholder="pokemon post goes here" required><%= pokemon.comments %></textarea>
     </div>
-    <input class="ui violet big basic button" type="submit">
+    <input class="ui violet button" type="submit">
+    <a class="ui blue button" href="/collection/<%= pokemon._id %>">Back</a>
   </form>
 </div>
 
