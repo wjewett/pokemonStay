@@ -50,29 +50,21 @@ passport.use(new LocalStrategy(User.authenticate()));
 passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
 
-// Check to see if Pokedex has been added to MongoDB and scan in pokedex.json if not
-// May be removed from code if a single console.log of 721 is printed on app start
-// Pokedex.countDocuments({}, function(err, count) {
-//   if (err) { return handleError(err) } //handle possible errors
-//   console.log(count);
-//   if(count<721) {
-    // Load pokedex.json into a MongoDB collection
-    let rawData = fs.readFileSync('pokedex.json');
-    let pokedex = JSON.parse(rawData);
+// Add pokedex.json to it's own MongoDB
+// Run once and then delete
+    // let rawData = fs.readFileSync('pokedex.json');
+    // let pokedex = JSON.parse(rawData);
 
-    let x = 1;
-    pokedex.forEach(pokemon => {
-    Pokedex.create(pokemon, (err, pokemon) => {
-      if(err){
-        console.log(err);
-      }
-    });
-      x++;
-    });
-    console.log(x);
-//   }
-// });
-
+    // let x = 1;
+    // pokedex.forEach(pokemon => {
+    // Pokedex.create(pokemon, (err, pokemon) => {
+    //   if(err){
+    //     console.log(err);
+    //   }
+    // });
+    //   x++;
+    // });
+    // console.log(x);
 
 // ============
 // ROUTES
