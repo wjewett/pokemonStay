@@ -163,29 +163,6 @@ app.post("/collection", isLoggedIn, (req, res)=>{
   })
 });
 
-function getPokemonInfo(query) {
-  let url = "https://pokeapi.co/api/v2/pokemon/" + query.toLowerCase();
-  return rp({
-    url: url,
-    json: true
-  });
-}
-
-function makeNewPokemon(data, comments) {
-  let baseStats = [];
-  let evolve;
-  data.stats.forEach(stat => {
-    baseStats.push(stat.base_stat);
-  });
-  if (pokedex[data.id-1].evolutions){
-    evolve = pokedex[data.id-1].evolutions[0].to;
-  } else {
-    evolve = 'no';
-  }
-  let newPokemon = {name: data.forms[0].name, number: data.id, comments: comments, evolve: evolve, types: pokedex[data.id-1].types, stats: baseStats};
-  return newPokemon;
-}
-
 // SHOW ROUTE
 app.get("/collection/:id", checkOwnership, (req, res) => {
   Pokemon.findById(req.params.id, (err, foundPokemon) =>{
@@ -267,6 +244,29 @@ app.delete("/collection/:id", (req, res)=> {
     }
   });
 });
+
+function getPokemonInfo(query) {
+  let url = "https://pokeapi.co/api/v2/pokemon/" + query.toLowerCase();
+  return rp({
+    url: url,
+    json: true
+  });
+}
+
+function makeNewPokemon(data, comments) {
+  let baseStats = [];
+  let evolve;
+  data.stats.forEach(stat => {
+    baseStats.push(stat.base_stat);
+  });
+  if (pokedex[data.id-1].evolutions){
+    evolve = pokedex[data.id-1].evolutions[0].to;
+  } else {
+    evolve = 'no';
+  }
+  let newPokemon = {name: data.forms[0].name, number: data.id, comments: comments, evolve: evolve, types: pokedex[data.id-1].types, stats: baseStats};
+  return newPokemon;
+}
 
 function isLoggedIn (req, res, next){
   if(req.isAuthenticated()){

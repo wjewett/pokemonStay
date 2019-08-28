@@ -8,12 +8,13 @@
   <base href="/">
   <link rel="stylesheet" type="text/css" href="/stylesheets/semantic.min.css">
   <link rel="stylesheet" type="text/css" href="/stylesheets/app.css">
+  <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
   <link rel="shortcut icon" href="/img/favicon.png" type="image/x-icon">
 </head>
 <body>
   <div class="ui fixed inverted menu">
     <div class="ui main container">
-        <a href="/" class="item"><i class="database icon first"></i>PokémonStay</a>
+        <a href="/" class="item"><i class="fa fa-user" aria-hidden="true"></i>&nbsp;&nbsp;PokémonStay</a>
       <% if(currentUser) { %>
         <a href="/logout" class="item" method="POST">Logout</a>
         <a href="/collection/new" class="item">Add New Pokémon</a>
