@@ -52,10 +52,10 @@ passport.deserializeUser(User.deserializeUser());
 
 // Check to see if Pokedex has been added to MongoDB and scan in pokedex.json if not
 // May be removed from code if a single console.log of 721 is printed on app start
-Pokedex.countDocuments({}, function(err, count) {
-  if (err) { return handleError(err) } //handle possible errors
-  console.log(count);
-  if(count<721) {
+// Pokedex.countDocuments({}, function(err, count) {
+//   if (err) { return handleError(err) } //handle possible errors
+//   console.log(count);
+//   if(count<721) {
     // Load pokedex.json into a MongoDB collection
     let rawData = fs.readFileSync('pokedex.json');
     let pokedex = JSON.parse(rawData);
@@ -70,8 +70,8 @@ Pokedex.countDocuments({}, function(err, count) {
       x++;
     });
     console.log(x);
-  }
-});
+//   }
+// });
 
 
 // ============
