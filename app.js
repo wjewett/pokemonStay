@@ -276,11 +276,14 @@ function makeNewPokemon(data, comments) {
   Pokedex.findOne({ id: data.id }, function (err, pokemon) {
     evolutions = pokemon.evolutions;
     types = pokemon.types;
+    console.log(types);
+    console.log(evolutions);
     if(evolutions.toString() != '') {
       evolve = evolutions[0].to;
     } else {
       evolve = 'no';
     }
+    console.log(evolve);
   });
   let newPokemon = {name: data.forms[0].name, number: data.id, comments: comments, evolve: evolve, types: types, stats: baseStats};
   return newPokemon;
