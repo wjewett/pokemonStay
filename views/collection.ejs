@@ -7,7 +7,7 @@
     <% if(collection.filter(pokemon => pokemon.author.id.toString() == currentUser._id.toString()).length > 0) { %>
       <div class="ui top attached segment">
     <% } else { %>
-    <div>
+      <div class="ui red message">Your collection is empty. Click "Add a Pokemon" above to get started.</div><div>
     <% } %>
     <div class="ui divided items clearfix">
       <% collection.forEach( (pokemon) => { %>

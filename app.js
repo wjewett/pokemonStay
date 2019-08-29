@@ -140,36 +140,39 @@ app.get("/collection/new", isLoggedIn, (req, res)=>{
 });
 
 // CREATE ROUTE
-app.post("/collection", isLoggedIn, (req, res)=>{
+app.post("/collection", isLoggedIn, function (req, res) {
   // create pokemon
   let newPokemon = new Pokemon;
   let userID = req.user._id;
   let username = req.user.username;
   let query = req.body.searchMon;
   let comments = req.body.comments;
-  let newMon;
   let monster = getPokemonInfo(query);
   monster.then(info => {
     if (info.id > 721) {
       res.render('new');
     } else {
-      newMon = makeNewPokemon(info, comments);
-      let author = {
-        id: userID, 
-        username: username
-      }
-      newMon.author = author;      
-      newPokemon = newMon;
-      Pokemon.create(newPokemon, (err, newPokemon) =>{
-        if(err){
-          console.log(err);
-          res.render("new");
-        } else{
-          res.redirect("/collection");
+      Pokedex.findOne({id: info.id})
+      .then(newPoke =>{
+        let newMon = makeNewPokemon(info, comments, newPoke);
+        let author = {
+          id: userID, 
+          username: username
         }
-      });
-    }
-  })
+        newMon.author = author;      
+        newPokemon = newMon;
+        Pokemon.create(newPokemon, (err, newPokemon) =>{
+          if(err){
+            console.log(err);
+            res.render("new");
+          } else{
+            res.redirect("/collection");
+          }
+        });
+      }).catch(err => {
+        console.log(err);
+      })
+  }})
   .catch(err => {
     console.log(err);
   })
@@ -229,16 +232,21 @@ app.put("/collection/:id/evolve", checkOwnership, (req, res) => {
   let evolvedMon
   let monster = getPokemonInfo(name);
   monster.then(info => {
-    evolvedMon = makeNewPokemon(info, comments);
-    evolvedMon.name = name;
-    evolvedMon.comments = comments;
-    Pokemon.findByIdAndUpdate(req.params.id, evolvedMon, (err, updatedPokemon)=>{
-      if(err){
-        res.redirect("/collection");
-      } else {
-        res.redirect("/collection/"+req.params.id);
-      }
-    });
+    Pokedex.findOne({id: info.id})
+    .then(newPoke => {    
+      evolvedMon = makeNewPokemon(info, comments, newPoke);
+      evolvedMon.name = name;
+      evolvedMon.comments = comments;
+      Pokemon.findByIdAndUpdate(req.params.id, evolvedMon, (err, updatedPokemon)=>{
+        if(err){
+          res.redirect("/collection");
+        } else {
+          res.redirect("/collection/"+req.params.id);
+        }
+      });
+    }).catch(err => {
+      console.log(err);
+    })
   })
   .catch(err => {
     console.log(err);
@@ -265,7 +273,7 @@ function getPokemonInfo(query) {
   });
 }
 
-function makeNewPokemon(data, comments) {
+function makeNewPokemon(data, comments, newPoke) {
   let baseStats = [];
   let evolve;
   let types;
@@ -273,18 +281,13 @@ function makeNewPokemon(data, comments) {
     baseStats.push(stat.base_stat);
   });
   let evolutions;
-  Pokedex.findOne({ id: data.id }, function (err, pokemon) {
-    evolutions = pokemon.evolutions;
-    types = pokemon.types;
-    console.log(types);
-    console.log(evolutions);
-    if(evolutions.toString() != '') {
-      evolve = evolutions[0].to;
-    } else {
-      evolve = 'no';
-    }
-    console.log(evolve);
-  });
+  evolutions = newPoke.evolutions;
+  types = newPoke.types;
+  if(evolutions.toString() != '') {
+    evolve = evolutions[0].to.toString();
+  } else {
+    evolve = 'no';
+  }
   let newPokemon = {name: data.forms[0].name, number: data.id, comments: comments, evolve: evolve, types: types, stats: baseStats};
   return newPokemon;
 }
