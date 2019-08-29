@@ -63,8 +63,9 @@ i.second {
 
 /* Show pokemon */
 .show-buttons {
-  width: 24%;
+  width: 24.122%;
   margin: 0 auto;
+  padding: .78571429em 0 !important;
 }
 .button-div {
   width: 100%;

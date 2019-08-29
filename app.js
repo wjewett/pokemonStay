@@ -1,4 +1,5 @@
-const express                 = require("express"),
+const port                    = process.env.PORT || 3000;
+      express                 = require("express"),
       passport                = require("passport"),
       bodyParser              = require("body-parser"),
       methodOverride          = require("method-override"),
@@ -284,7 +285,8 @@ function makeNewPokemon(data, comments, newPoke) {
   evolutions = newPoke.evolutions;
   types = newPoke.types;
   if(evolutions.toString() != '') {
-    evolve = evolutions[0].to.toString();
+    let evolveMon = evolutions[Math.floor(Math.random()*evolutions.length)];
+    evolve = evolveMon.to.toString();
   } else {
     evolve = 'no';
   }
@@ -322,6 +324,6 @@ function checkOwnership(req, res, next) {
   }
 }
 
-app.listen(process.env.PORT, process.env.IP, ()=>{
+app.listen(port, process.env.IP, ()=>{
   console.log("Server started.......");
 });
