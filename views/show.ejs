@@ -3,22 +3,21 @@
   <div class="ui top attached">
     <div class="item">
         <img class="sprites" src="/img/sprites/<%=pokemon.number%>.png">
-        <br>
         <div class="ui huge header"><%= pokemon.name %>, #<%=pokemon.number%></div>
-        <p><h3>Caught: </h3><%=pokemon.created.toDateString() %></p>
-        <p><h3>Types: </h3><%= pokemon.types.join(', ') %></p>
-        <p><h3>Stats: </h3>
+        <p><span class="show-category">Caught: </span><%=pokemon.created.toDateString() %></p>
+        <p><span class="show-category">Type(s): </span><%= pokemon.types.join(', ') %></p>
+        <p><span class="show-category">Stats: </span>
           <br>
           <span class="stats">Speed: <%= pokemon.stats[0] %></span>
           <span class="stats">Special Defense: <%= pokemon.stats[1] %></span>
           <span class="stats">Special Attack: <%= pokemon.stats[2] %></span>
-          <span class="stats">Defense <%= pokemon.stats[3] %></span>
-          <span class="stats"> Attack <%= pokemon.stats[4] %></span>
+          <span class="stats">Defense: <%= pokemon.stats[3] %></span>
+          <span class="stats"> Attack: <%= pokemon.stats[4] %></span>
           <span class="stats"> Hit Points (HP): <%= pokemon.stats[0] %></span>
         </p>
         <br>
         <br>
-        <p><h3>Comments: </h3><%= pokemon.comments %></p>
+        <p><span class="show-category">Comments: </span><%= pokemon.comments %></p>
       <div class="button-div">
         <% if(pokemon.evolve === 'no') { %>
           <a class="ui disabled green button show-buttons" style="color: #000;" disabled>Does Not Evolve</a>

@@ -67,6 +67,11 @@ i.second {
   margin: 0 auto;
   padding: .78571429em 0 !important;
 }
+.show-category {
+  font-weight: 700;
+  text-align: left;
+  font-size: 1.3rem;
+}
 .button-div {
   width: 100%;
 }
