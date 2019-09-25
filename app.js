@@ -57,7 +57,7 @@ passport.use(new LocalStrategy(User.authenticate()));
 passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
 
-// Add pokedex.json to it's own MongoDB
+// Add pokedex.json to it's own MongoDB collection
 // Run once and then delete
 // let rawData = fs.readFileSync('pokedex.json');
 // let pokedex = JSON.parse(rawData);
@@ -88,7 +88,6 @@ app.get('/', (req, res) => {
 });
 
 //login logic
-//middleware
 app.post(
 	'/',
 	passport.authenticate('local', {
